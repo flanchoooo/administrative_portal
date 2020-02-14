@@ -1,0 +1,16 @@
+Running scheduled command: "C:\xampp\php\php.exe" "artisan" inspire > "NUL" 2>&1
+Running scheduled command: "C:\xampp\php\php.exe" "artisan" inspire > "NUL" 2>&1
+Running scheduled command: "C:\xampp\php\php.exe" "artisan" inspire > "NUL" 2>&1
+
+In Kernel.php line 37:
+                                           
+  Class 'App\Console\Inspiring' not found  
+                                           
+
+
+In Kernel.php line 37:
+                                           
+  Class 'App\Console\Inspiring' not found  
+                                           
+
+Running scheduled command: "C:\xampp\php\php.exe" "artisan" inspire > "NUL" 2>&1
