@@ -4,7 +4,7 @@
 @section('content')
     <div class="row justify-content-center">
 
-        <div class="col-xl-11">
+        <div class="col-xl-10">
 
             <div class="card o-hidden border-0 shadow-lg my-5">
                 <div class="card-body p-0">
@@ -14,12 +14,12 @@
                         <div class="col-lg-12">
                             <div class="p-5">
                                 <div class="text-lg-left">
-                                    <h1 class="h4 text-gray-900 mb-4">Destroy E-Value</h1>
+                                    <h1 class="h4 text-gray-900 mb-4">Settlement Transactions</h1>
 
                                     <hr>
                                 </div>
 
-                                <a href="{{"/wallet_configurations/destroy_view"}}"><label>Destroy E Value</label></a> <br>
+                                <a href="{{"/wallet_configurations/destroy_view"}}"><label>Settlement</label></a> <br>
 
                                 <br>
 
@@ -43,7 +43,7 @@
 
                                     <!-- /.table-responsive -->
 
-                                    <table class="table-responsive" id="example" width="100%"  cellspacing="0">
+                                    <table class="table responsive" id="example" width="100%"  cellspacing="">
                                         <thead>
                                         <tr>
 
@@ -54,15 +54,11 @@
                                             <th>Created</th>
                                             <th></th>
                                             <th></th>
-
-
                                         </tr>
                                         </thead>
                                         <tbody>
                                         @foreach($records as $record => $values)
                                             <tr class="odd gradeX">
-
-
                                                 <td>{{$values->id}}</td>
                                                 <td>{{$values->account_number}}</td>
                                                 <td>{{$values->amount}}</td>

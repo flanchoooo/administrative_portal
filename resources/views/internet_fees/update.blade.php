@@ -39,23 +39,23 @@
                                             <input id="mobile" type="text" class="form-control{{ $errors->has('category_name') ? ' is-invalid' : '' }}" name="created_by" value="{{  Auth::user()->id }}" required autofocus>
                                         </div>
 
+
                                         <div class="form-group" hidden>
                                             <label for="exampleInputEmail1">Name</label>
-                                            <input id="mobile" type="text" class="form-control{{ $errors->has('category_name') ? ' is-invalid' : '' }}" name="id" value="{{  session('id')}}" required autofocus>
+                                            <input id="mobile" type="text" class="form-control{{ $errors->has('category_name') ? ' is-invalid' : '' }}" name="id" value="{{ session('id') }}" required autofocus>
+                                        </div>
+
+                                        <div class="form-group" hidden>
+                                            <label for="exampleInputEmail1">Name</label>
+                                            <input id="mobile" type="text" class="form-control{{ $errors->has('category_name') ? ' is-invalid' : '' }}" name="transaction_id" value="{{ session('transaction_id') }}" required autofocus>
                                         </div>
 
                                         <div class="form-group row">
-                                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                                <label for="exampleInputEmail1">Product Name</label>
-                                                <input id="mobile" type="text" class="form-control{{ $errors->has('category_name') ? ' is-invalid' : '' }}" name="name" value="{{  session('name') }}" required autofocus>
-
-
-                                            </div>
-
-
                                             <div class="col-lg-6">
                                                 <div class="form-group">
-                                                    <label for="exampleInputEmail1"></label>
+                                                    <br>
+                                                    <label for="exampleInputEmail1">Fixed Fee</label>
+                                                    <input id="mobile" type="text" class="form-control{{ $errors->has('category_name') ? ' is-invalid' : '' }}" name="fixed_fee" value="{{session('fixed_fee')}}" required autofocus>
                                                 </div>
                                             </div>
 
@@ -64,11 +64,8 @@
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <br>
-                                                    <label for="exampleInputEmail1">Tax Type</label>
-                                                    <select id="mobile" type="text" class="form-control{{ $errors->has('channel_name') ? ' is-invalid' : '' }}" name="tax_type" value="{{ old('channel_name') }}" required autofocus>
-                                                        <option value="FIXED">FIXED</option>
-                                                        <option value="PERCENTAGE">PERCENTAGE</option>
-                                                    </select>
+                                                    <label for="exampleInputEmail1">Percentage Fee</label>
+                                                    <input id="mobile" type="text" class="form-control{{ $errors->has('category_name') ? ' is-invalid' : '' }}" name="percentage_fee" value="{{session('percentage_fee')}}" required autofocus>
                                                 </div>
                                             </div>
 
@@ -76,44 +73,34 @@
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <br>
-                                                    <label for="exampleInputEmail1">Tax Fee</label>
-                                                    <input id="mobile" type="text" class="form-control{{ $errors->has('category_name') ? ' is-invalid' : '' }}" name="tax_fee" value="{{session('tax_fee')}}" required autofocus>
+                                                    <label for="exampleInputEmail1">Tax Fixed</label>
+                                                    <input id="mobile" type="text" class="form-control{{ $errors->has('category_name') ? ' is-invalid' : '' }}" name="tax_fixed" value="{{session('tax_fixed')}}" required autofocus>
                                                 </div>
                                             </div>
 
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <br>
-                                                    <label for="exampleInputEmail1">Revenue Fee Type</label>
-                                                    <select id="mobile" type="text" class="form-control{{ $errors->has('channel_name') ? ' is-invalid' : '' }}" name="fees_type" value="{{ old('channel_name') }}" required autofocus>
-                                                        <option value="FIXED">FIXED</option>
-                                                        <option value="PERCENTAGE">PERCENTAGE</option>
-                                                    </select>
+                                                    <label for="exampleInputEmail1">Tax Percentage</label>
+                                                    <input id="mobile" type="text" class="form-control{{ $errors->has('category_name') ? ' is-invalid' : '' }}" name="tax_percentage" value="{{session('tax_percentage')}}" required autofocus>
                                                 </div>
                                             </div>
+
 
 
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <br>
-                                                    <label for="exampleInputEmail1">Revenue Fee</label>
-                                                    <input id="mobile" type="text" class="form-control{{ $errors->has('category_name') ? ' is-invalid' : '' }}" name="revenue_fee" value="{{session('revenue_fee')}}" required autofocus>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-6">
-                                                <div class="form-group">
-                                                    <br>
-                                                    <label for="exampleInputEmail1">Minimum</label>
-                                                    <input id="mobile" type="text" class="form-control{{ $errors->has('category_name') ? ' is-invalid' : '' }}" name="minimum_limit" value="{{session('minimum_limit')}}" required autofocus>
+                                                    <label for="exampleInputEmail1">Minimum Amount</label>
+                                                    <input id="mobile" type="text" class="form-control{{ $errors->has('category_name') ? ' is-invalid' : '' }}" name="minimum_amount" value="{{session('minimum_amount')}}" required autofocus>
                                                 </div>
                                             </div>
 
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <br>
-                                                    <label for="exampleInputEmail1">Maximum</label>
-                                                    <input id="mobile" type="text" class="form-control{{ $errors->has('category_name') ? ' is-invalid' : '' }}" name="maximum_limit" value="{{session('maximum_limit')}}" required autofocus>
+                                                    <label for="exampleInputEmail1">Maximum Amount</label>
+                                                    <input id="mobile" type="text" class="form-control{{ $errors->has('category_name') ? ' is-invalid' : '' }}" name="maximum_amount" value="{{session('maximum_amount')}}" required autofocus>
                                                 </div>
                                             </div>
 

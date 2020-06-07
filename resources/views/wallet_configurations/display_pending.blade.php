@@ -14,30 +14,20 @@
                         <div class="col-lg-12">
                             <div class="p-5">
                                 <div class="text-lg-left">
-                                    <h1 class="h4 text-gray-900 mb-4">Create E-Value</h1>
+                                    <h1 class="h4 text-gray-900 mb-4">Deposit</h1>
 
                                     <hr>
                                 </div>
 
-                                <a href="{{"/wallet_configurations/create"}}"><label>Create E Value</label></a> <br>
+                                <a href="{{"/wallet_configurations/create"}}"><label>Deposit Transaction</label></a> <br>
 
                                 <br>
-
-
-
-
-                                @if ($flash = session('notification'))
-                                   <center><div  class="alert alert-success" role="alert">
-                                        {{$flash}}
-                                    </div></center>
-                                @endif
-
 
                                 <div class="box-body">
 
                                     <!-- /.table-responsive -->
 
-                                    <table class="table-responsive" id="example" width="100%"  cellspacing="0">
+                                    <table class="table responsive" id="example" width="100%"  cellspacing="">
                                         <thead>
                                         <tr>
 
@@ -48,7 +38,6 @@
                                             <th>Created</th>
                                             <th></th>
                                             <th></th>
-
 
                                         </tr>
                                         </thead>
@@ -116,45 +105,44 @@
 
                                                 <td>
 
-                                                        <form role="form" action="/wallet_configurations/create_value" method="POST">
+                                                    <form role="form" action="/wallet_configurations/create_value" method="POST">
 
-                                                            @csrf
-                                                            <input type="hidden" class="form-control"  placeholder="Company Name" value="{{$values->id}}"  name="id" >
-                                                            <input type="hidden" class="form-control"  placeholder="Company Name" value="{{Auth::user()->id}}"  name="updated_by" >
-                                                            <input type="hidden" class="form-control"  placeholder="Company Name" value="2"  name="state" >
+                                                        @csrf
+                                                        <input type="hidden" class="form-control"  placeholder="Company Name" value="{{$values->id}}"  name="id" >
+                                                        <input type="hidden" class="form-control"  placeholder="Company Name" value="{{Auth::user()->id}}"  name="updated_by" >
+                                                        <input type="hidden" class="form-control"  placeholder="Company Name" value="2"  name="state" >
 
-                                                            <div class="modal fade" id="reject" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                                <div class="modal-dialog" role="document">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <h5 class="modal-title" id="exampleModalLabel">Confirm Action</h5>
-                                                                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                                                                <span aria-hidden="true">×</span>
-                                                                            </button>
-                                                                        </div>
+                                                        <div class="modal fade" id="reject" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="exampleModalLabel">Confirm Action</h5>
+                                                                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">×</span>
+                                                                        </button>
+                                                                    </div>
 
-                                                                        <div class="modal-footer">
-                                                                            <button  type="submit" class="btn btn-primary">   {{ __('Submit') }}</button>
-                                                                            <a class="btn btn-danger" href="/wallet_configurations/display_pending">Cancel</a>
-                                                                        </div>
+                                                                    <div class="modal-footer">
+                                                                        <button  type="submit" class="btn btn-primary">   {{ __('Submit') }}</button><a class="btn btn-danger" href="/wallet_configurations/display_pending">Cancel</a>
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                        </div>
 
-                                                            @php
-                                                                $id = Auth::user()->role_permissions_id;
-                                                                $role = \App\Role_User::where('id', $id)->get()->first();
+                                                        @php
+                                                            $id = Auth::user()->role_permissions_id;
+                                                            $role = \App\Role_User::where('id', $id)->get()->first();
 
-                                                                 $transactions = $role->e_value_checker;
+                                                             $transactions = $role->e_value_checker;
 
-                                                                  if(!isset($transactions)|| trim($transactions) == ''){
-                                                                      echo '';
+                                                              if(!isset($transactions)|| trim($transactions) == ''){
+                                                                  echo '';
 
-                                                                      }else{
+                                                                  }else{
 
-                                                                    echo $display = '<center><a class="btn btn-danger" href="#" data-toggle="modal" data-target="#reject">  Reject  </a></center>';
-                                                                     }
-                                                            @endphp
+                                                                echo $display = '<center><a class="btn btn-danger" href="#" data-toggle="modal" data-target="#reject">  Reject  </a></center>';
+                                                                 }
+                                                        @endphp
 
                                                     </form>
                                                 </td>
@@ -176,7 +164,6 @@
         </div>
 
     </div>
-
 
 @endsection
 

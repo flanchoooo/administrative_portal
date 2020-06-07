@@ -19,14 +19,7 @@
 
                                 </div>
 
-                                <script>
-                                    $("document").ready(function(){
-                                        setTimeout(function(){
-                                            $("div.alert").remove();
-                                        },5000 ); // 5 secs
-
-                                    });
-                                </script>
+                              p
                                 @if ($flash = session('link_success'))
                                     <div  class="alert alert-success" role="alert">
                                         {{$flash}}

@@ -14,7 +14,7 @@
                         <div class="col-lg-12">
                             <div class="p-5">
                                 <div class="text-lg-left">
-                                    <h1 class="h4 text-gray-900 mb-4">Update Wallet Profile</h1>
+                                    <h1 class="h4 text-gray-900 mb-4">Manage Wallet Profile</h1>
                                     <hr>
 
                                 </div>
@@ -68,8 +68,17 @@
                                             <div class="col-sm-6 mb-3 mb-sm-0">
                                                 <label for="exampleInputEmail1">State</label>
                                                 <select id="mobile" type="text" class="form-control{{ $errors->has('category_name') ? ' is-invalid' : '' }}" name="state">
-                                                    <option value="1">ACTIVE</option>
-                                                    <option value="0">BLOCKED</option>
+                                                    @php
+
+                                                            if(session('state') == 'ACTIVE'){
+                                                                echo '<option value="ACTIVE">ACTIVE</option>
+                                                                      <option value="BLOCKED">BLOCKED</option>';
+
+                                                                }else{
+                                                                         echo '<option value="BLOCKED">BLOCKED</option>
+                                                                           <option value="ACTIVE">ACTIVE</option>';
+                                                                }
+                                                       @endphp
                                                 </select>
                                             </div>
 

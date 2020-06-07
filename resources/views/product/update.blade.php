@@ -63,37 +63,10 @@
                                                 </select>
                                             </div>
 
-
-
-                                            <div class="col-lg-6">
-                                                <br>
-
-                                                <label for="exampleInputEmail1">Transaction Type</label>
-                                                <select id="mobile" type="text" class="form-control{{ $errors->has('channel_name') ? ' is-invalid' : '' }}" name="transaction_type" value="{{ old('channel_name') }}" required autofocus>
-                                                    <option value="PURCHASE_CASH_BACK">PURCHASE_CASH_BACK</option>
-                                                    <option value="BALANCE_ENQUIRY">BALANCE_ENQUIRY</option>
-                                                    <option value="PURCHASE">PURCHASE</option>
-                                                    <option value="ZIPIT_CREDIT_PUSH">ZIPIT_CREDIT_PUSH</option>
-                                                    <option value="ZIPIT_TO_MOBILE_REDEEM">ZIPIT_TO_MOBILE_REDEEM</option>
-                                                    <option value="PAYMENT_FOR_ACCOUNT">PAYMENT_FOR_ACCOUNT</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="col-lg-6">
-                                                <br>
-                                                <label for="exampleInputEmail1">On Us | Off Us</label>
-                                                <select id="mobile" type="text" class="form-control{{ $errors->has('channel_name') ? ' is-invalid' : '' }}" name="on_us" value="{{ old('channel_name') }}" required autofocus>
-                                                    <option value="1">ON US TRANSACTION</option>
-                                                    <option value="0">OFF US TRANSACTION</option>
-                                                </select>
-                                            </div>
-
                                         </div>
                                     </div>
                                     <button type="submit" class="btn btn-primary">   {{ __('Submit') }}</button>
                                 </form>
-
-
                             </div>
                         </div>
                     </div>

@@ -13,112 +13,36 @@
                     <div class="col-lg-12">
                         <div class="p-5">
                             <div class="text-lg-left">
-
-                                <h5><label>Internet Banking Balances & Stats Dashboard</label></h5>
-
+                                <h5><label>Loan Book Position & Interest Earnings</label></h5>
                                 <hr>
-
                             </div>
-
-
-                            <form method="POST" action="/wallet_configurations/value">
+                            <form method="POST" action="#">
                                 @csrf
                                 <div class="box-body">
-
                                     <div class="form-group row">
-
                                         <div class="col-lg-6">
                                             <div class="form-group">
-                                                <label>Corporate Accounts:</label>
+                                                <label>Loan Book:</label>
                                             </div>
                                         </div>
-
-
                                         <div class="col-lg-6">
                                             <div class="form-group">
-                                                <label>{{session('corporates')}}</label>
+                                                <label>{{session('loan_book_position')}}</label>
                                             </div>
                                         </div>
-
-
                                         <div class="col-lg-6">
                                             <div class="form-group">
-                                                <label>Mobile Users:</label>
+                                                <label>Interest Earnings:</label>
                                             </div>
                                         </div>
-
-
                                         <div class="col-lg-6">
                                             <div class="form-group">
-                                                <label>{{session('mobile_users')}}</label>
+                                                <label>{{session('interest_earnings')}}</label>
                                             </div>
                                         </div>
-
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label>Web Users:</label>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label>{{session('web')}}</label>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label>Ecocash Balance:</label>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label>{{session('ecocash')}}</label>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label>ZETDC Balance:</label>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label>{{session('zesa')}}</label>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label>SMS Balance:</label>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label>{{session('sms')}}</label>
-                                            </div>
-                                        </div>
-
-
-
                                     </div>
                                 </div>
-
-
-                                <!-- /.box-body -->
-
-                                <!-- /.box-body -->
-
                             </form>
-
-
                         </div>
                     </div>
                 </div>

@@ -50,13 +50,18 @@
                                                     <label>User Type:
                                                         @php
                                                             if($rec->user_type_id == '2'){
-
                                                             echo 'INITIATOR';
-                                                            }else{
-
-                                                            echo 'AUTHORIZER';
-
                                                             }
+
+                                                              if($rec->user_type_id == '3'){
+                                                            echo 'AUTHORIZOR';
+                                                            }
+
+                                                              if($rec->user_type_id == '4'){
+                                                            echo 'ACCEPTOR';
+                                                            }
+
+
 
                                                         @endphp
                                                     </label>

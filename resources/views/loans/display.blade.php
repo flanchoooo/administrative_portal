@@ -14,91 +14,88 @@
                         <div class="col-lg-12">
                             <div class="p-5">
                                 <div class="text-lg-left">
-                                    <h1 class="h4 text-gray-900 mb-4">Merchant Device Configurations</h1>
-
+                                    <h1 class="h4 text-gray-900 mb-4">Loans Pending Approval</h1>
                                     <hr>
+                                    <script>
+                                        $("document").ready(function(){
+                                            setTimeout(function(){
+                                                $("div.alert").remove();
+                                            },8000 ); // 5 secs
+
+                                        });
+                                    </script>
+                                    @if ($flash = session('loan_success'))
+                                        <center><div  class="alert alert-success" role="alert">
+                                                {{$flash}}
+                                            </div></center>
+                                    @endif
+
+
+                                    @if ($flash = session('loan_failed'))
+                                        <center><div  class="alert alert-danger" role="alert">
+                                            {{$flash}}
+                                        </div></center>
+                                    @endif
                                 </div>
-
-
                                 <br>
-
                                 <div class="box-body">
-
                                     <!-- /.table-responsive -->
-
                                     <table class="table-responsive" id="example" width="100%" cellspacing="-20">
                                         <thead>
                                         <tr>
 
                                             <th>ID</th>
-                                            <th>Terminal ID</th>
-                                            <th>IMEI</th>
-                                            <th>State</th>
-                                            <th>Vendor</th>
-                                            <th>Merchant</th>
+                                            <th>Applicant</th>
+                                            <th>Tenure</th>
+                                            <th>Status</th>
+                                            <th>Amount</th>
+                                            <th>created_at</th>
                                             <th></th>
                                             <th></th>
-
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         @foreach($records as $record => $values)
                                             <tr class="odd gradeX">
                                                 <td>{{$values->id}}</td>
-                                                <td>{{$values->terminal_id}}</td>
-                                                <td>{{$values->imei}}</td>
                                                 <td>@php
 
-                                                        if ($values->state === '1'){
-
-                                                        echo 'ACTIVE';
-
-                                                        }else{
-
-                                                        echo 'IN-ACTIVE';
-
-                                                        }
-                                                    @endphp</td>
-                                                <td>{{$values->vendor}}</td>
-                                                <td>{{$values->merchant_name}}</td>
-
-                                                <td>
-                                                    <form role="form" action="/devices/updateview" method="POST">
+                                                     $result = \App\LendingKYC::whereId($values->applicant_id)->first();
+                                                      echo $result["first_name"] . ' '. $result["last_name"]
+                                                        @endphp</td>
+                                                <td>{{$values->loan_duration}}</td>
+                                                <td>{{$values->status}}</td>
+                                                <td>{{$values->amount}}</td>
+                                                <td>{{$values->created_at}}</td>
+                                                <td>{{$values->description}}</td>
+                                                <td><form role="form" action="/loans/process" method="POST">
                                                         @csrf
                                                         <input type="hidden" class="form-control"  placeholder="Company Name" value="{{$values->id}}"  name="id" >
-                                                        <input type="hidden" class="form-control"  placeholder="Company Name" value="{{$values->imei}}"  name="imei" >
-                                                        <input type="hidden" class="form-control"  placeholder="Company Name" value="{{$values->sw_version}}"  name="sw_version" >
-                                                        <input type="hidden" class="form-control"  placeholder="Company Name" value="{{$values->vendor}}"  name="vendor" >
-                                                        <input type="hidden" class="form-control"  placeholder="Company Name" value="{{$values->terminal_id}}"  name="terminal_id" >
-                                                        <input type="hidden" class="form-control"  placeholder="Company Name" value="{{$values->merchant_id}}"  name="merchant_id" >
-
-                                                        @php
+                                                        <input type="hidden" class="form-control"  placeholder="Company Name" value="DECLINED"  name="status" >
+                                                         @php
                                                             $id = Auth::user()->role_permissions_id;
                                                             $role = \App\Role_User::where('id', $id)->get()->first();
-                                                            $transactions = $role->update_merchant_pos;
+                                                            $transactions = $role->loans;
 
                                                           if(!isset($transactions)|| trim($transactions) == ''){
                                                               echo '';
 
                                                               }else{
 
-                                                             echo $display = '<center><button type="submit" class="btn btn-success">Edit</button></center>';
+                                                             echo $display = '<center><button type="submit" class="btn btn-danger">Decline</button></center>';
                                                              }
                                                         @endphp
                                                     </form>
                                                 </td>
 
                                                 <td>
-                                                    <form role="form" action="/devices/del" method="POST">
+                                                    <form role="form" action="/loans/process" method="POST">
                                                         @csrf
                                                         <input type="hidden" class="form-control"  placeholder="Company Name" value="{{$values->id}}"  name="id" >
-                                                        <input type="hidden" class="form-control"  placeholder="Company Name" value="{{$values->imei}}"  name="imei" >
-                                                        <input type="hidden" class="form-control"  placeholder="Company Name" value="{{$values->sw_version}}"  name="sw_version" >
-                                                        <input type="hidden" class="form-control"  placeholder="Company Name" value="{{$values->vendor}}"  name="vendor" >
-                                                        <input type="hidden" class="form-control"  placeholder="Company Name" value="{{$values->terminal_id}}"  name="terminal_id" >
-                                                        <input type="hidden" class="form-control"  placeholder="Company Name" value="{{$values->merchant_id}}"  name="merchant_id" >
-
-
+                                                        <input type="hidden" class="form-control"  placeholder="Company Name" value="PENDING AUTHORIZATION"  name="status" >
                                                         <div class="modal fade" id="delete_device" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                             <div class="modal-dialog" role="document">
                                                                 <div class="modal-content">
@@ -111,7 +108,7 @@
 
                                                                     <div class="modal-footer">
                                                                         <button  type="submit" class="btn btn-primary">   {{ __('Submit') }}</button>
-                                                                        <a class="btn btn-danger" href="/devices/display">Cancel</a>
+                                                                        <a class="btn btn-danger" href="/loans/display">Cancel</a>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -121,14 +118,55 @@
                                                         @php
                                                             $id = Auth::user()->role_permissions_id;
                                                             $role = \App\Role_User::where('id', $id)->get()->first();
-                                                            $transactions = $role->delete_pos_devices;
+                                                            $transactions = $role->loans_approve;
 
                                                              if(!isset($transactions)|| trim($transactions) == ''){
                                                                  echo '';
 
                                                                  }else{
 
-                                                                echo $display = '<center><a class="btn btn-danger" href="#" data-toggle="modal" data-target="#delete_device">Delete</a><center>';
+                                                                echo $display = '<center><a class="btn btn-primary" href="#" data-toggle="modal" data-target="#delete_device">Approve</a><center>';
+                                                                }
+                                                        @endphp
+
+                                                    </form>
+                                                </td>
+
+                                                <td>
+                                                    <form role="form" action="/loans/process" method="POST">
+                                                        @csrf
+                                                        <input type="hidden" class="form-control"  placeholder="Company Name" value="{{$values->id}}"  name="id" >
+                                                        <input type="hidden" class="form-control"  placeholder="Company Name" value="AUTHORIZED"  name="status" >
+                                                        <div class="modal fade" id="authorize" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="exampleModalLabel">Confirm Action</h5>
+                                                                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">×</span>
+                                                                        </button>
+                                                                    </div>
+
+                                                                    <div class="modal-footer">
+                                                                        <button  type="submit" class="btn btn-primary">   {{ __('Submit') }}</button>
+                                                                        <a class="btn btn-danger" href="/loans/display">Cancel</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                        @php
+                                                            $id = Auth::user()->role_permissions_id;
+                                                            $role = \App\Role_User::where('id', $id)->get()->first();
+                                                            $transactions = $role->loans_authorize;
+
+                                                             if(!isset($transactions)|| trim($transactions) == ''){
+                                                                 echo '';
+
+                                                                 }else{
+
+                                                                echo $display = '<center><a class="btn btn-success" href="#" data-toggle="modal" data-target="#authorize">Authorize</a><center>';
                                                                 }
                                                         @endphp
 
@@ -136,7 +174,26 @@
 
                                                     </form>
                                                 </td>
+                                                <td>
+                                                    <form role="form" action="/loans/profile" method="POST">
+                                                        @csrf
+                                                        <input type="hidden" class="form-control"  placeholder="Company Name" value="{{$values->id}}"  name="id" >
 
+                                                        @php
+                                                            $id = Auth::user()->role_permissions_id;
+                                                            $role = \App\Role_User::where('id', $id)->get()->first();
+                                                            $transactions = $role->loans;
+
+                                                             if(!isset($transactions)|| trim($transactions) == ''){
+                                                                 echo '';
+
+                                                                 }else{
+
+                                                                 echo $display = '<center><button type="submit" class="btn btn-primary">Applicant</button></center>';
+                                                                }
+                                                        @endphp
+                                                    </form>
+                                                </td>
                                             </tr>
                                         @endforeach
                                         </tbody>
@@ -152,6 +209,5 @@
         </div>
 
     </div>
-
 @endsection
 

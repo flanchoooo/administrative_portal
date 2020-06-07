@@ -11,12 +11,30 @@
                     <!-- Nested Row within Card Body -->
                     <div class="row">
 
+
+
                         <div class="col-lg-12">
                             <div class="p-5">
                                 <div class="text-lg-left">
                                     <h1 class="h4 text-gray-900 mb-4">Corporate Profiles</h1>
 
                                     <hr>
+                                </div>
+
+                                <script>
+                                    $("document").ready(function(){
+                                        setTimeout(function(){
+                                            $("div.alert").remove();
+                                        },5000 ); // 5 secs
+
+                                    });
+                                </script>
+                                <div>
+                                    @if ($flash = session('error_email'))
+                                        <div style="text-align: center;"><div class="alert alert-danger" role="alert">
+                                                {{$flash}}
+                                            </div></div>
+                                    @endif
                                 </div>
 
                                 <a href="{{"/corporates/createview"}}"><label>Create Corporate Profile</label> </a> <br>

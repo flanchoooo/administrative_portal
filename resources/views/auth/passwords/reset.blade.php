@@ -18,6 +18,8 @@
                         <div class="col-lg-12">
                             <div class="p-5">
                                 <div class="text-center">
+                                    <center><h2 class="h4 text-gray-900 mb-4"><img src="\Capture.png"></h2></center>
+                                    <hr>
                                     <h1 class="h4 text-gray-900 mb-4">Password Reset</h1>
                                 </div>
 

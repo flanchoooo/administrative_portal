@@ -16,7 +16,10 @@
 
 
                             <div class="text-center">
+                                <center><h2 class="h4 text-gray-900 mb-4"><img src="\Capture.png"></h2></center>
+                                <hr>
                                 <h1 class="h4 text-gray-900 mb-2">Forgot Your Password?</h1>
+
                                 <p class="mb-4">We get it, stuff happens. Just enter your email address below and we'll send you a link to reset your password!</p>
 
                                 @if (session('status'))

@@ -73,6 +73,7 @@
                                                         <option value="101">EXPIRED CARD</option>
                                                         <option value="100">HOT CARD</option>
                                                         <option value="111">STOLEN/LOST</option>
+                                                        <option value="UNLINK_CARD">UNLINK CARD</option>
                                                     </select>
                                                 </div>
                                             </div>

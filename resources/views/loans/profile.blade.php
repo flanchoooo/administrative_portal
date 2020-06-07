@@ -13,7 +13,7 @@
                         <div class="col-lg-12">
                             <div class="p-5">
                                 <div class="text-lg-left">
-                                    <h1 class="h4 text-gray-900 mb-4">Change Card Status</h1>
+                                    <h1 class="h4 text-gray-900 mb-4">Search Loan Applicant Profile</h1>
                                     <hr>
                                 </div>
 
@@ -52,7 +52,7 @@
 
 
 
-                                <form method="POST" action="/accountmanagement/status_info">
+                                <form method="POST" action="/loans/search">
                                     @csrf
                                     <div class="box-body">
 
@@ -64,8 +64,8 @@
 
 
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">Account Number | Mobile | PAN </label>
-                                            <input id="mobile" type="text" class="form-control{{ $errors->has('category_name') ? ' is-invalid' : '' }}" name="account_number" required autofocus>
+                                            <label for="exampleInputEmail1">Mobile | Email </label>
+                                            <input id="mobile" type="text" class="form-control{{ $errors->has('category_name') ? ' is-invalid' : '' }}" name="applicant_details" required autofocus>
                                         </div>
 
                                     </div>

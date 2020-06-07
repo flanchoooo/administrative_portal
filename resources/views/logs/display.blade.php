@@ -43,7 +43,14 @@
                                             <tr class="odd gradeX">
                                                 <td>{{$values->id}}</td>
                                                 <td>{{$values->description}}</td>
-                                                <td>{{\Illuminate\Support\Facades\Auth::user($values->user)->name}}</td>
+                                                <td>@php
+
+                                                        $user = \App\User::where('id',$values->user)->first();
+                                                        echo  $user["name"];
+
+
+
+                                                @endphp</td>
                                                 <td>{{$values->created_at}}</td>
                                             </tr>
                                         @endforeach

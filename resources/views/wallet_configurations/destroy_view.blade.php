@@ -14,7 +14,7 @@
                         <div class="col-lg-12">
                             <div class="p-5">
                                 <div class="text-lg-left">
-                                    <h1 class="h4 text-gray-900 mb-4">Destroy E-Value</h1>
+                                    <h1 class="h4 text-gray-900 mb-4">Settlement</h1>
                                     <h5 class="box-title">NB:This feature  will destroy e-value and this can only be reversed by an administrator.</h5>
                                     <hr>
 

@@ -15,7 +15,14 @@
                                 <div class="text-lg-left">
                                     <h1 class="h4 text-gray-900 mb-4">Fee Configurations</h1>
                                     <hr>
+                                    <script>
+                                        $("document").ready(function(){
+                                            setTimeout(function(){
+                                                $("div.alert").remove();
+                                            },4000 ); // 5 secs
 
+                                        });
+                                    </script>
                                     @if ($flash = session('error'))
                                         <div  class="alert alert-danger" role="alert">
                                             {{$flash}}

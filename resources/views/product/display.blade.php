@@ -3,9 +3,7 @@
 
 @section('content')
     <div class="row justify-content-center">
-
         <div class="col-xl-11">
-
             <div class="card o-hidden border-0 shadow-lg my-5">
                 <div class="card-body p-0">
                     <!-- Nested Row within Card Body -->
@@ -20,14 +18,13 @@
                                 </div>
 
                                 <a href="{{"/product/createview"}}"><label>Create Transaction Type</label></a> <br>
-
                                 <br>
 
                                 <div class="box-body">
 
                                     <!-- /.table-responsive -->
 
-                                    <table class="table-responsive" id="example" width="100%" cellspacing="-20">
+                                    <table class="table responsive" id="example" width="100%"  cellspacing="">
                                         <thead>
                                         <tr>
 
@@ -36,8 +33,6 @@
                                             <th>State</th>
                                             <th>Created</th>
                                             <th></th>
-
-
 
                                         </tr>
                                         </thead>
@@ -48,22 +43,17 @@
                                                 <td>{{$values->name}}</td>
                                                 <td>{{$values->status}}</td>
                                                 <td>{{$values->created_at}}</td>
-
                                                 <td>
                                                     <form role="form" action="/product/updateview" method="POST">
                                                         @csrf
-
                                                         <input type="hidden" class="form-control"  placeholder="Company Name" value="{{$values->id}}"  name="id" >
                                                         <input type="hidden" class="form-control"  placeholder="Company Name" value="{{$values->name}}"  name="name" >
                                                         <center> <button type="submit" class="btn btn-success">Edit</button></center>
                                                     </form>
                                                 </td>
-
-
                                             </tr>
                                         @endforeach
                                         </tbody>
-
                                     </table>
                                 </div>
                             </div>
@@ -71,10 +61,7 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
     </div>
-
 @endsection
 

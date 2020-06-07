@@ -92,9 +92,45 @@
                                                 <br>
                                                 <label for="exampleInputEmail1">User Type</label>
                                                 <select id="mobile" type="text" class="form-control{{ $errors->has('category_name') ? ' is-invalid' : '' }}" name="user_type_id"  required autofocus>
-                                                    <option value="1">INDIVIDUAL USER</option>
-                                                    <option value="2">CORPORATE MAKER</option>
-                                                    <option value="3">CORPORATE CHECKER</option>
+                                                    @php
+                                                   if(session('user_type_id') == '1'){
+                                                        echo '<option value="1">INDIVIDUAL USER</option>';
+                                                        echo '<option value="2">CORPORATE INITIATOR</option>';
+                                                        echo ' <option value="3">CORPORATE AUTHORIZER</option>';
+                                                        echo '<option value="4">CORPORATE ACCEPTOR</option>';
+                                                    }
+
+                                                    if(session('user_type_id') == '2'){
+                                                        echo '<option value="2">CORPORATE INITIATOR</option>';
+                                                        echo '<option value="1">INDIVIDUAL USER</option>';
+                                                        echo ' <option value="3">CORPORATE AUTHORIZER</option>';
+                                                        echo '<option value="4">CORPORATE ACCEPTOR</option>';
+                                                    }
+
+                                                    if(session('user_type_id') == '3'){
+                                                        echo ' <option value="3">CORPORATE AUTHORIZER</option>';
+                                                        echo '<option value="2">CORPORATE INITIATOR</option>';
+                                                        echo '<option value="1">INDIVIDUAL USER</option>';
+                                                        echo '<option value="4">CORPORATE ACCEPTOR</option>';
+                                                    }
+
+                                                     if(session('user_type_id') == '4'){
+
+                                                         echo '<option value="4">CORPORATE ACCEPTOR</option>';
+                                                        echo ' <option value="3">CORPORATE AUTHORIZER</option>';
+                                                        echo '<option value="2">CORPORATE INITIATOR</option>';
+                                                        echo '<option value="1">INDIVIDUAL USER</option>';
+
+                                                    }
+
+
+                                                    @endphp
+
+
+
+
+
+
                                                 </select>
                                             </div>
                                     </div>

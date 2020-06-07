@@ -79,7 +79,7 @@
                                             <div class="col-sm-6">
                                                 <label for="exampleInputEmail1">ACTION</label>
                                                 <select id="mobile" type="text" class="form-control{{ $errors->has('category_name') ? ' is-invalid' : '' }}" name="active"  required autofocus>
-                                                    <option value="1">UNBLOCK AN ACCOUNT</option>
+                                                    z<option value="1">UNBLOCK AN ACCOUNT</option>
                                                     <option value="0">BLOCK  AN ACCOUNT</option>
                                                     <option value="3">PIN RESET</option>
                                                     <option value="4">DE-REGISTER</option>
