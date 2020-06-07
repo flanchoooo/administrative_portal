@@ -7,14 +7,14 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Secure Payments</title>
+    <title>INSTAKASH</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('vendor/fontawesome-free/css/all.min.css' ) }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('datatable/font.css' ) }}" rel="stylesheet" type="text/css">
 
     <!-- Custom styles for this template-->
-    <link href="{{asset('css/sb-admin-2.min.css')}}" rel="stylesheet">
+    <link href="{{asset('css/sb-admin-2.css')}}" rel="stylesheet">
     <link href="{{asset('datatable/datatable.css')}}" rel="stylesheet">
     <link href="{{asset('datatable/buttons.css')}}" rel="stylesheet">
     <script type="text/javascript" src="{{asset('js/button.js')}}"></script>
@@ -25,29 +25,8 @@
     <script type="text/javascript" src="{{asset('datatable/html5buttons.js')}}"></script>
     <script type="text/javascript" src="{{asset('datatable/print.js')}}"></script>
     <script type="text/javascript" src="{{asset('datatable/dataTable.swf')}}"></script>
-
-
-
-
-
     <script>
         $(document).ready(function () {
-            // Setup - add a text input to each footer cell
-            $('#example thead tr').clone(true).appendTo( '#example thead' );
-            $('#example thead tr:eq(1) th').each( function (i) {
-                var title = $(this).text();
-                $(this).html( '<input type="text" placeholder=" '+title+'" />' );
-
-                $( 'input', this ).on( 'keyup change', function () {
-                    if ( table.column(i).search() !== this.value ) {
-                        table
-                            .column(i)
-                            .search( this.value )
-                            .draw();
-                    }
-                } );
-            } );
-
             var table = $('#example').DataTable( {
                 orderCellsTop: true,
                 fixedHeader: false,
@@ -55,21 +34,7 @@
                 "order": [[0, "desc"]],
                 dom: 'Bfrtip',
                 buttons: [
-                    {
-                        "extend":"excel",
-                        "text":"Export to Excel",
-                        "className":"btn btn-primary"
-                    },{
-                        "extend":"print",
-                        "text":"Export to PDF",
-                        "className":"btn btn-primary"
-                    },
-
-                    {
-                        "extend":"copy",
-                        "text":"Copy to File",
-                        "className":"btn btn-primary"
-                    },
+                    'csv', 'excel', 'pdf', 'print'
                 ]
             } );
         });
@@ -89,9 +54,9 @@
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
             <div class="sidebar-brand-icon rotate-n-15">
-                <i class="fas fa-lock-open"></i>
+
             </div>
-            <div class="sidebar-brand-text mx-3">Secure-Pay</div>
+            <div class="sidebar-brand-text mx-3">INSTAKASH</div>
         </a>
 
         <hr class="sidebar-divider my-0">
@@ -143,7 +108,7 @@
                               }else{
 
 
-                          echo $display = '<a class="collapse-item" href="/transactions/display">Card Transactions</a>';
+                         // echo $display = '<a class="collapse-item" href="/transactions/display">Card Transactions</a>';
 
                              }
                     @endphp
@@ -165,7 +130,7 @@
                               }else{
 
 
-                          echo $display = '<a class="collapse-item" href="/internet/dashboard">IB Dashboard</a>';
+                       //   echo $display = '<a class="collapse-item" href="/internet/dashboard">IB Dashboard</a>';
 
                              }
                     @endphp
@@ -176,7 +141,7 @@
 
                               }else{
 
-                             echo $display = ' <a  class="collapse-item" href="/internet/transactions">IB Transactions</a>';
+                            // echo $display = ' <a  class="collapse-item" href="/internet/transactions">IB Transactions</a>';
                              }
                     @endphp
 
@@ -186,7 +151,7 @@
 
                               }else{
 
-                             echo $display = ' <a class="collapse-item" href="/luhn/decommissioned">Suspended Cards</a>';
+                         //    echo $display = ' <a class="collapse-item" href="/luhn/decommissioned">Suspended Cards</a>';
                              }
                     @endphp
 
@@ -197,7 +162,7 @@
 
                               }else{
 
-                             echo $display = '<a  class="collapse-item" href="/wallet_configurations/summaries">Wallet E-Value Position</a>';
+                           //  echo $display = '<a  class="collapse-item" href="/wallet_configurations/summaries">Wallet E-Value Position</a>';
                              }
                     @endphp
 
@@ -208,7 +173,7 @@
 
                               }else{
 
-                             echo $display = '<a  class="collapse-item" href="/wallet_configurations/search">Ind. Wallet Transaction</a>';
+                          //   echo $display = '<a  class="collapse-item" href="/wallet_configurations/search">Ind. Wallet Transaction</a>';
                              }
                     @endphp
 
@@ -219,18 +184,18 @@
 
                               }else{
 
-                             echo $display = '<a  class="collapse-item" href="/eft/status">EFT Switch Status</a>';
+                        //     echo $display = '<a  class="collapse-item" href="/eft/status">EFT Switch Status</a>';
                              }
                     @endphp
 
                     @php
 
-                        if(!isset($role->reports)|| trim($role->reports) == ''){
+                        if(!isset($role->transaction_manager)|| trim($role->transaction_manager) == ''){
                               echo '';
 
                               }else{
 
-                             echo $display = '<a  class="collapse-item" href="/eft/incoming">EFT Messages</a>';
+                           //  echo $display = '<a  class="collapse-item" href="/eft/incoming">EFT Messages</a>';
                              }
                     @endphp
 
@@ -253,7 +218,7 @@
 
                 }else{
 
-               echo $display = ' <hr class="sidebar-divider"><div class="sidebar-heading">Mobile & Internet Banking</div>';
+              // echo $display = ' <hr class="sidebar-divider"><div class="sidebar-heading">Mobile & Internet Banking</div>';
                }
         @endphp
 
@@ -267,10 +232,10 @@
 
                       else{
 
-                     echo $display = ' <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#internet_" aria-expanded="true" aria-controls="collapseTwo">
-                                       <i class="fas fa-fw fa-mobile"></i>
-                                         <span>Internet Banking</span>
-                                        </a>';
+                   //  echo $display = ' <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#internet_" aria-expanded="true" aria-controls="collapseTwo">
+                                    //   <i class="fas fa-fw fa-mobile"></i>
+                                    //     <span>Internet Banking</span>
+                                    //    </a>';
                      }
             @endphp
 
@@ -287,7 +252,7 @@
 
                               }else{
 
-                             echo $display = ' <a class="collapse-item" href="/internet/search">Individuals</a>';
+                            // echo $display = ' <a class="collapse-item" href="/internet/search">Individuals</a>';
                              }
                     @endphp
 
@@ -297,7 +262,7 @@
 
                               }else{
 
-                             echo $display = ' <a class="collapse-item" href="/multiple/search">Multiple Accounts</a>';
+                            // echo $display = ' <a class="collapse-item" href="/multiple/search">Multiple Accounts</a>';
                              }
                     @endphp
 
@@ -307,7 +272,7 @@
 
                               }else{
 
-                             echo $display = ' <a class="collapse-item" href="/multiple/statement">View Statements</a>';
+                            // echo $display = ' <a class="collapse-item" href="/multiple/statement">View Statements</a>';
                              }
                     @endphp
 
@@ -317,7 +282,7 @@
 
                               }else{
 
-                             echo $display = ' <a  class="collapse-item" href="/corporates/display">Corporates</a>';
+                            // echo $display = ' <a  class="collapse-item" href="/corporates/display">Corporates</a>';
                              }
                     @endphp
 
@@ -328,7 +293,7 @@
 
                               }else{
 
-                             echo $display = ' <a  class="collapse-item" href="/internet/rtgs">RTGS</a>';
+                            // echo $display = ' <a  class="collapse-item" href="/internet/rtgs">RTGS</a>';
                              }
                     @endphp
 
@@ -349,7 +314,7 @@
 
             }else{
 
-           echo $display = '  <hr class="sidebar-divider"><div class="sidebar-heading">Wallet Services</div>';
+           echo $display = '  <hr class="sidebar-divider"><div class="sidebar-heading">Wallet & Loan Services</div>';
            }
     @endphp
 
@@ -387,7 +352,7 @@
                               }else{
 
 
-                          echo $display = '<a class="collapse-item" href="/wallet/update_view">Update Wallet</a>';
+                          echo $display = '<a class="collapse-item" href="/wallet/update_view">Manage Wallets</a>';
 
                              }
                     @endphp
@@ -400,7 +365,7 @@
 
 
 
-                          echo $display = '<a class="collapse-item" href="/disburse/display">Disbursements</a>';
+                       //   echo $display = '<a class="collapse-item" href="/disburse/display">Disbursements</a>';
 
 
 
@@ -428,7 +393,7 @@
 
                                }else{
 
-                              echo $display = ' <a  class="collapse-item" href="/wallet_configurations/display_pending">Create E-Value</a>';
+                              echo $display = ' <a  class="collapse-item" href="/wallet_configurations/display_pending">Deposit</a>';
                               }
                     @endphp
 
@@ -440,7 +405,7 @@
 
                             }else{
 
-                           echo $display = ' <a class="collapse-item" href="/wallet_configurations/display_pendings">Destroy E-Value</a>';
+                           echo $display = ' <a class="collapse-item" href="/wallet_configurations/display_pendings">Settlement</a>';
                            }
                     @endphp
 
@@ -472,6 +437,102 @@
             </div>
         </li>
 
+        <li class="nav-item">
+
+            @php
+                if(!isset( $role->wallet_services)|| trim($role->loans) == ''){
+                      echo '';
+
+                      }
+
+                      else{
+
+                     echo $display = ' <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#loans" aria-expanded="true" aria-controls="collapseTwo">
+                                       <i class="fas fa-fw fa-dollar-sign"></i>
+                                         <span>Loans</span>
+                                        </a>';
+                     }
+            @endphp
+
+            <div id="loans" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Loan Management</h6>
+
+
+                    @php
+                        if(!isset($role->loans)|| trim($role->loans) == ''){
+                              echo '';
+
+                              }else{
+
+
+                          echo $display = '<a class="collapse-item" href="/loans/display">Loan Applications</a>';
+
+                             }
+                    @endphp
+
+                    @php
+                        if(!isset($role->loans_profile)|| trim($role->loans_profile) == ''){
+                              echo '';
+
+                              }else{
+
+
+
+                          echo $display = '<a class="collapse-item" href="/loans/profile">Applicant Profile</a>';
+
+
+
+                             }
+                    @endphp
+
+                    @php
+                        if(!isset($role->loan_configurations)|| trim($role->loan_configurations) == ''){
+                              echo '';
+
+                              }else{
+
+
+
+                           //  echo $display = ' <a  class="collapse-item" href="/loans/cos">Loans COS</a>';
+
+
+                             }
+                    @endphp
+
+                    @php
+                        if(!isset($role->loan_configurations)|| trim($role->loan_configurations) == ''){
+                              echo '';
+
+                              }else{
+
+
+
+                           //  echo $display = ' <a  class="collapse-item" href="/loans/cos">Repayments</a>';
+
+
+                             }
+                    @endphp
+
+                    @php
+                        if(!isset($role->loan_configurations)|| trim($role->loan_configurations) == ''){
+                              echo '';
+
+                              }else{
+
+
+
+                             echo $display = ' <a  class="collapse-item" href="/loans/book">Loan Book</a>';
+
+
+                             }
+                    @endphp
+
+
+                </div>
+            </div>
+        </li>
+
 
 
 
@@ -485,7 +546,7 @@
 
             }else{
 
-           echo $display = '<hr class="sidebar-divider"><div class="sidebar-heading">Merchant & Card Management</div>';
+           echo $display = '<hr class="sidebar-divider"><div class="sidebar-heading">Card Management</div>';
            }
     @endphp
 
@@ -554,16 +615,6 @@
                              }
                     @endphp
 
-                    @php
-                        if(!isset($role->delete_card)|| trim($role->delete_card) == ''){
-                              echo '';
-
-                              }else{
-
-                             echo $display = ' <a class="collapse-item" href="/accountmanagement/unlink"> Unlink Card</a>';
-                             }
-                    @endphp
-
                 </div>
             </div>
         </li>
@@ -576,10 +627,11 @@
 
                       }else{
 
-                     echo $display = ' <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#merchant_service" aria-expanded="true" aria-controls="collapseTwo">
+                     /*echo $display = ' <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#merchant_service" aria-expanded="true" aria-controls="collapseTwo">
                                        <i class="fas fa-shopping-cart"></i>
                                          <span>Merchant Services</span>
                                         </a>';
+                     */
                      }
             @endphp
 
@@ -722,7 +774,7 @@
 
                              }else{
 
-                             echo $display = ' <a class="collapse-item" href="/internet/products/display">Configure IB Products</a>';
+                            // echo $display = ' <a class="collapse-item" href="/internet/products/display">Configure IB Products</a>';
                             }
                     @endphp
 
@@ -733,7 +785,7 @@
 
                             }else{
 
-                           echo $display = ' <a  class="collapse-item" href="/fee/display">Configure Fees</a>';
+                          // echo $display = ' <a  class="collapse-item" href="/fee/display">Configure Fees</a>';
                            }
                     @endphp
 
@@ -743,7 +795,7 @@
 
                             }else{
 
-                           echo $display = ' <a  class="collapse-item" href="/internet_fees/display">Configure IB Fees</a>';
+                           echo $display = ' <a  class="collapse-item" href="/internet_fees/display">Configure Wallet Fees</a>';
                            }
                     @endphp
 
@@ -753,7 +805,7 @@
 
                              }else{
 
-                            echo $display = ' <a class="collapse-item" href="/bank/display">Configure Bank Profile</a>';
+                         //   echo $display = ' <a class="collapse-item" href="/bank/display">Configure Bank Profile</a>';
                             }
                     @endphp
 
@@ -763,7 +815,7 @@
 
                              }else{
 
-                            echo $display = ' <a class="collapse-item" href="/cues/display">Configure Keys</a>';
+                           // echo $display = ' <a class="collapse-item" href="/cues/display">Configure Keys</a>';
                             }
                     @endphp
 
@@ -774,7 +826,7 @@
 
                              }else{
 
-                            echo $display = ' <a class="collapse-item" href="/cos/display">Configure COS</a>';
+                           // echo $display = ' <a class="collapse-item" href="/cos/display">Configure COS</a>';
                             }
                     @endphp
 
@@ -784,7 +836,7 @@
 
                              }else{
 
-                            echo $display = ' <a class="collapse-item" href="/eft/restart">Restart EFT Gateway</a>';
+                            //echo $display = ' <a class="collapse-item" href="/eft/restart">Restart EFT Gateway</a>';
                             }
                     @endphp
 
@@ -883,10 +935,11 @@
 
                       }else{
 
-                     echo $display = ' <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#auth" aria-expanded="true" aria-controls="collapsePages">
+                     /*echo $display = ' <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#auth" aria-expanded="true" aria-controls="collapsePages">
                                       <i class="fas fa-fw fa-lock"></i>
                                       <span>Authentication Services</span>
                                      </a>';
+                     */
                      }
             @endphp
 
@@ -1015,7 +1068,7 @@
         <footer class="sticky-footer bg-white">
             <div class="container my-auto">
                 <div class="copyright text-center my-auto">
-                    <span>Copyright &copy; Secure Payments 2019</span>
+                    <span>Copyright &copy; Insta 2020</span>
                 </div>
             </div>
         </footer>
