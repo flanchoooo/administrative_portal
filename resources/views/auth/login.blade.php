@@ -11,7 +11,7 @@
         <br>
 
         <div class="text-center">
-            <h1 class="h4 text-gray-900 mb-4"><img src="{{asset('getbucks-dash-logo.png')}}" alt="Logo" width="150px"></h1>
+
         </div>
         <div class="card o-hidden border-0 shadow-lg my-5">
             <div class="card-body p-0">
@@ -28,6 +28,9 @@
                                     {{$flash}}
                                 </div>
                             @endif
+                            A<center><h2 class="h4 text-gray-900 mb-4"><img src="\Capture.png"></h2></center>
+                            <hr>
+                            <center><h2 class="h4 text-gray-900 mb-4">Login</h2></center>
 
                             <form  method="POST" action="{{ route('login') }}">
                                 @csrf
