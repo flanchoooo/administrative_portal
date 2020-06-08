@@ -28,10 +28,10 @@ class EFTController extends Controller
 
 
 
-            $dts = $rec->data->last_refresh;
-            $time = substr($dts,0,10);
-            $date = new DateTime('@'. $time);
-            $dt =  $date->format('Y-m-d H:i:s');
+           // $dts = $rec->data->last_refresh;
+           // $time = substr($dts,0,10);
+            //$date = new DateTime('@'. $time);
+            //$dt =  $date->format('Y-m-d H:i:s');
 
             if($rec->data->login_busy == false){
                 $login =  'FALSE';
@@ -64,7 +64,7 @@ class EFTController extends Controller
             session()->flash('signing_in',$in);
             session()->flash('wait_for_key_exchange', $key);
             session()->flash('failed_echo_count', $rec->data->failed_echo_count);
-            session()->flash('last_refresh', $dt);
+            session()->flash('last_refresh', $rec->data->last_refresh);
             return view('eft.dashboard');
 
         } catch (RequestException  $requestException) {
@@ -120,6 +120,8 @@ class EFTController extends Controller
             session()->flash('wait_for_key_exchange', $key);
             session()->flash('failed_echo_count', $rec->data->failed_echo_count);
             session()->flash('last_refresh', $rec->data->last_refresh);
+            return view('eft.dashboard');
+
             return view('eft.gateway');
 
         } catch (RequestException  $requestException) {
@@ -177,7 +179,6 @@ class EFTController extends Controller
     }
 
     public function search(Request $request){
-      //  return $request->all();
         AuthService::getAuth(Auth::user()->role_permissions_id, 'reports');
         $client = new Client();
         try {

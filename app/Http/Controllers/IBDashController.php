@@ -11,7 +11,7 @@ class IBDashController extends Controller
 
     public function dashboard (Request $request){
 
-
+        return view('internet.dashboard');
         /*try {
 
             //Generate API Token

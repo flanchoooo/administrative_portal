@@ -37,7 +37,6 @@ class MerchantController extends Controller
             ]);
 
             $records = $result->getBody()->getContents();
-
             return view('merchant.update')->with('id', $id = $request->id)
                 ->with('name', $name = $request->name)
                 ->with('mobile', $mobile = $request->mobile)
@@ -307,6 +306,7 @@ class MerchantController extends Controller
                     'created_by' => $request->created_by,
                     'city' => $request->city,
                     'id' => $request->id,
+                    'updated_by' => Auth::id(),
                     'mdr' => $request->mdr,
 
                 ],

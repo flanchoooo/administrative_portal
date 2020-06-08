@@ -34,22 +34,15 @@ class LuhnController extends Controller
                 'headers' => ['Content-type' => 'application/json',],
 
             ]);
-
             $records =  $result->getBody()->getContents();
             return view('luhn.decommissioned')->with('records' , json_decode($records));
-
-
         }
         catch (ClientException $e){
-
             return view('card.decommissioned');
 
         }
 
     }
-
-
-
 
 
     public function batch(Request $request)
@@ -94,8 +87,6 @@ class LuhnController extends Controller
     {
         AuthService::getAuth(Auth::user()->role_permissions_id, 'card_production');
         try {
-
-
 
 
             $client = new Client();
@@ -152,38 +143,20 @@ class LuhnController extends Controller
 
             $rec =  json_decode($result->getBody()->getContents());
 
-
-
-
              if($rec->code === "00"){
-
                  return redirect('/luhn/display');
-
              }else{
-
-
                  $client = new Client();
                  $result = $client->get(env('BASE_URL').'/card/manufacture/allluhncards', [
-
                      'auth' => [ env('WEB_USER_NAME'),env('WEB_PASSWORD')],
                      'headers' => ['Content-type' => 'application/json',],
 
                  ]);
-
                  $records =  $result->getBody()->getContents();
                  return view('luhn.display')->with('records' , json_decode($records));
              }
-
-
-
-
-           // return view('luhn.display')->with('records' , json_decode($records));
-
-
         }
-        catch (ClientException $e){
-
-
+        catch (\Exception $e){
             session()->flash('error', 'Please Contact System administrator for assistance');
             return view('luhn.create');
 

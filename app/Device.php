@@ -9,7 +9,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Auth\Authenticatable as AuthenticableTrait;
 
 
-class Merchant extends Model implements Authenticatable
+class Device    extends Model implements Authenticatable
 
 {
 

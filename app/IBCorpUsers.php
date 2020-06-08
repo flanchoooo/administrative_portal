@@ -9,7 +9,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Auth\Authenticatable as AuthenticableTrait;
 
 
-class MobilesUsers extends Model implements Authenticatable
+class IBCorpUsers extends Model implements Authenticatable
 
 {
 
@@ -17,7 +17,7 @@ class MobilesUsers extends Model implements Authenticatable
 
     protected $guarded = [];
 
-    protected $table = 'mobile_user';
+    protected $table = 'users';
 
     protected $connection = 'mysql3';
 

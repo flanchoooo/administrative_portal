@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Role;
 use App\Role_User;
 use App\Services\AuthService;
+use App\Transactions;
+use App\TransactionType;
+use App\TxnTypes;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Auth;
 use App\Services\TokenService;
@@ -64,38 +67,30 @@ class ReportsController extends Controller
     {
 
         AuthService::getAuth(Auth::user()->role_permissions_id, 'reports');
+        return view('transactions.wallet');
+    }
+
+    public function display(Request $request)
+    {
         try {
+            AuthService::getAuth(Auth::user()->role_permissions_id, 'reports');
+            $credit = Transactions::where('account_credited', $request->mobile)
+                ->where('credit_amount', '>', 0)
+                ->whereBetween('created_at',array($request->start_date, $request->end_date))
+                ->get();
 
+             $debit = Transactions::where('account_debited', $request->mobile)
+                ->where('debit_amount', '>', 0)
+                ->whereBetween('created_at',array($request->start_date, $request->end_date))
+                ->get();
 
-            //API Key
-            // $auth = json_decode(TokenService::getToken());
+            $total_history = $debit->merge($credit)->sortByDesc('id');
+            return view('transactions.display')->with('records',$total_history);
+        }catch (\Exception $exception){
 
-            $client = new Client();
-            $result = $client->get(env('BASE_URL').'/transactions/wallet',
-                [
-
-                    'auth' => [ env('WEB_USER_NAME'),env('WEB_PASSWORD')],
-                    'headers' => ['Content-type' => 'application/json',],
-
-                ]);
-
-
-            $rec =  $result->getBody()->getContents();
-            return view('transactions.wallet')->with('records', json_decode($rec));
-
-
+            session()->flash('search', 'Failed to process request please contact admin.');
+            return redirect()->back();
         }
-
-        catch (ClientException $e){
-
-            session()->flash('error', 'Please Contact System administrator for assistance');
-            return view('transactions.wallet');
-
-        }
-
-
-
-
     }
 
 

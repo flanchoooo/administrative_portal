@@ -20,8 +20,6 @@ class IBPINStatusController extends Controller
     public function preauth(Request $request)
     {
         AuthService::getAuth(Auth::user()->role_permissions_id, 'ib_change_status');
-
-
         if ($request->channel == 'MOBILE') {
 
             if (filter_var($request->mobile, FILTER_VALIDATE_EMAIL)) {
@@ -84,7 +82,6 @@ class IBPINStatusController extends Controller
                     ],
                 ]);
 
-
                 $rec = json_decode($result->getBody()->getContents());;
                 if ($rec->code == '01') {
                     session()->flash('notification', 'Email not found.');
@@ -99,6 +96,7 @@ class IBPINStatusController extends Controller
                 session()->flash('email', $rec->body->email);
                 session()->flash('account_number', $rec->body->account_number);
                 session()->flash('active', $rec->body->status);
+                session()->flash('user_type_id', $rec->body->user_type_id);
 
 
                 return view('internet.internet_info');

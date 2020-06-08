@@ -9,7 +9,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Auth\Authenticatable as AuthenticableTrait;
 
 
-class IBCorpUsers extends Model implements Authenticatable
+class IBCorp extends Model implements Authenticatable
 
 {
 
@@ -17,7 +17,7 @@ class IBCorpUsers extends Model implements Authenticatable
 
     protected $guarded = [];
 
-    protected $table = 'users';
+    protected $table = 'corporate_users';
 
     protected $connection = 'mysql3';
 

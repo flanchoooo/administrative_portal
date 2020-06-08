@@ -9,7 +9,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Auth\Authenticatable as AuthenticableTrait;
 
 
-class Admin extends Model implements Authenticatable
+class LoggedUser extends Model implements Authenticatable
 
 {
 

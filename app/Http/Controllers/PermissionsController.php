@@ -6,6 +6,7 @@ use App\Admin;
 use App\Devices;
 use App\Merchant;
 use App\Permissions;
+use App\User;
 use Illuminate\Http\Request;
 use App\Services\AuthService;
 use Illuminate\Support\Facades\Auth;
@@ -107,10 +108,7 @@ class PermissionsController extends Controller
 
     public function users(){
 
-
-
-
-        $admins = Admin::all();
+        $admins = User::all();
         return view('permissions.users')->with('records', $admins);
     }
 

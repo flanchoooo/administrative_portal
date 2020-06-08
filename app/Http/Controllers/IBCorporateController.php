@@ -2,14 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\CorporateUser;
+use App\IBCorp;
+use App\IBCorpUsers;
 use App\Services\AuthService;
 use App\Services\TokenService;
+use App\User;
+use GuzzleHttp;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
+use http\Exception;
 use http\Url;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class IBCorporateController extends Controller
 {
@@ -29,7 +39,7 @@ class IBCorporateController extends Controller
             return view('corporate.display')->with('records', json_decode($rec));
         }
         catch (ClientException $e){
-            return $e;
+
             session()->flash('error', 'Please Contact System administrator for assistance');
             return view('bank.display');
         }
@@ -44,26 +54,12 @@ class IBCorporateController extends Controller
     public function show(Request $request)
     {
 
-        $user = new Client();
-        $res = $user->post(env('BR_BASE_URL').'/api/authenticate', [
-            'json' => [
-                'username' => env('BR_USERNAME'),
-                'password' => env('BR_PASSWORD'),
-            ]
-        ]);
-
-         $tok = $res->getBody()->getContents();
-        $bearer = json_decode($tok, true);
-        $sec = 'Bearer ' . $bearer['id_token'];
-
         try {
-
-
 
             $c = new Client();
             $r = $c->post(env('BR_BASE_URL') . '/api/customers', [
 
-                'headers' => ['Authorization' => $sec, 'Content-type' => 'application/json',],
+                'headers' => ['Authorization' => 'Corporate', 'Content-type' => 'application/json',],
                 'json' => [
                     'account_number' => $request->account_number,
                 ]
@@ -71,22 +67,21 @@ class IBCorporateController extends Controller
 
              $search_result = $r->getBody()->getContents();
             $details = json_decode($search_result);
-            session()->flash('client_name', $details->ds_account_customer_info->client_name);
-            session()->flash('account_id', $details->ds_account_customer_info->account_id);
-            session()->flash('branch_name', $details->ds_account_customer_info->branch_name);
-            session()->flash('email_id', $details->ds_account_customer_info->email_id);
-            session()->flash('acstatus', $details->ds_account_customer_info->acstatus);
-            session()->flash('mobile', $details->ds_account_customer_info->mobile);
 
-            if ($details->code === '00') {
-
-                return view('corporate.info');
-
-            } else {
-
-                $notification = 'Please Contact System administrator for assistance';
+            if ($details->code != '00') {
+                $notification = 'Account does not exists';
                 return view('corporate.create')->with('notification', $notification);
             }
+
+            session()->flash('client_name', $details->ds_account_customer->client_name);
+            session()->flash('account_id', $details->ds_account_customer->account_id);
+            session()->flash('branch_name', $details->ds_account_customer->branch_name);
+            session()->flash('email_id', $details->ds_account_customer->email_id);
+            session()->flash('acstatus', $details->ds_account_customer->acstatus);
+            session()->flash('mobile', $details->ds_account_customer->mobile);
+            return view('corporate.info');
+
+
 
         } catch (ClientException $e) {
             //return $e;
@@ -102,7 +97,7 @@ class IBCorporateController extends Controller
     public function create(Request $request)
     {
 
-        //return $request->all();
+
         AuthService::getAuth(Auth::user()->role_permissions_id, 'corporate');
         try {
             $client = new Client();
@@ -118,9 +113,8 @@ class IBCorporateController extends Controller
                 ],
             ]);
 
-            //return $result->getBody()->getContents();
-            $rec =  json_decode($result->getBody()->getContents());
 
+            $rec =  json_decode($result->getBody()->getContents());
             if($rec->code != "00") {
                 $notification = $rec->description;
                 return view('corporate.create')->with('notification', $notification);
@@ -130,6 +124,7 @@ class IBCorporateController extends Controller
             return redirect('/corporates/display');
         }
         catch (RequestException $requestException){
+           return $requestException;
 
             $notification = 'Duplicate entry';
             return view('corporate.create')->with('notification', $notification);
@@ -158,7 +153,7 @@ class IBCorporateController extends Controller
 
                 ],
             ]);
-
+         return    $rec =  $result->getBody()->getContents();
 
             $rec =  json_decode($result->getBody()->getContents());
 
@@ -192,14 +187,127 @@ class IBCorporateController extends Controller
         return view('corporate.create_user');
     }
 
-    public function users(Request $request)
+    public function users(Request $request){
+
+        $email = IBCorpUsers::where('email', $request->email)->get()->count();
+        if($email > 0){
+            session()->flash('error_email', 'Email arealdy taken');
+            return redirect('/corporates/display');
+        }
+        $mobile = IBCorpUsers::where('mobile', $request->mobile)->get()->count();
+        if($mobile > 0){
+            session()->flash('error_email', 'Mobile arealdy taken');
+            return redirect('/corporates/display');
+        }
+
+
+        try {
+            $id = $this->genRandomNumber();
+            DB::beginTransaction();
+            $user = IBCorpUsers::create([
+                'id'                => $id,
+                'name'              =>$request->name,
+                'login_identifier'  => $request->mobile,
+                'mobile'            => "263" . substr($request->mobile, -9),
+                'email'             => $request->email,
+                'password'          => Hash::make(Str::random(60)),
+                'token'             => Str::random(60),
+                'user_type_id'      => $request->user_type_id,
+                'status'            => true,
+            ]);
+
+            IBCorp::create([
+                'corporate_id' => $request->corporate_id,
+                'user_id' => $id,
+            ]);
+
+            DB::commit();
+
+            try {
+                $headers = array(
+                    'Accept'                 => 'application/json',
+                    'application_uid'        => env('NOTIFY_UUID'),
+                );
+
+                $app_url = 'https://getbucksonline.com' . '/registration/confirm?token=';
+                $client = new GuzzleHttp\Client(['headers' => $headers]);
+                $client->post(env('NOTIFY_URL') .'/email/html', [
+
+                    'json' => [
+                        'to'                        => [$request->email],
+                        'personalization_text'      => 'Internet Banking Registration',
+                        'subject'                   => 'Internet Banking Registration',
+                        'message'              => "<h4>Hello $request->name</h4>
+<br>
+Please visit this <a href='$app_url$user->token'>link</a>  to complete your account registration.
+<br><br>
+If you are failing to click the link copy and paste the following into your browser:
+<br><br>
+$app_url$user->token
+<br><br>
+
+<b>Please contact the bank if you have not initiated this transaction</b>
+<br>
+Kind Regards,<br>
+Getbucks
+",
+                        "isHTML"               => "true",
+                        "personalization_text" => "Getbucks",
+                    ]]);
+
+
+                return redirect('/corporates/display');
+
+
+            }catch (GuzzleHttp\Exception\RequestException $requestException){
+                session()->flash('error_email', 'Please contact system for assistance');
+                return redirect('/corporates/display');
+            }
+
+
+        } catch (Exception $exception) {
+            DB::rollback();
+            session()->flash('error_email', 'Please contact system for assistance');
+            return redirect('/corporates/display');
+        }
+
+    }
+
+    public function genRandomNumber($length = 10, $formatted = false){
+        $nums = '0123456789';
+
+        // First number shouldn't be zero
+        $out = $nums[ mt_rand(1, strlen($nums) - 1) ];
+
+        // Add random numbers to your string
+        for ($p = 0; $p < $length - 1; $p++)
+            $out .= $nums[ mt_rand(0, strlen($nums) - 1) ];
+
+        // Format the output with commas if needed, otherwise plain output
+        if ($formatted)
+            return number_format($out);
+
+        return $out;
+    }
+
+    protected function createCorporateUserRules(array $data){
+        return Validator::make($data, [
+            'email'        => 'required|string|email|max:255',
+            'mobile'       => 'required|string|max:255|unique:users',
+            'name'         => 'required',
+            'user_type_id' => 'required|exists:user_types,id|integer|between:2,3',
+            'corporate_id' => 'required|exists:corporates,id',
+        ]);
+    }
+
+    public function users_(Request $request)
     {
 
         //return $request->all();
         AuthService::getAuth(Auth::user()->role_permissions_id, 'corporate');
         try {
             $client = new Client();
-            $result = $client->post(env('IB_BANKING_URL').'/api/corporate/register', [
+            $result = $client->post('https://getbucksonline.com/api/corporate/register', [
 
 
                 'headers' => ['Content-type' => 'application/json',],
@@ -213,7 +321,7 @@ class IBCorporateController extends Controller
                 ],
             ]);
 
-            // return $result->getBody()->getContents();
+           // return $result->getBody()->getContents();
             $rec =  json_decode($result->getBody()->getContents());
 
 
@@ -222,14 +330,11 @@ class IBCorporateController extends Controller
                 return view('corporate.create_user');
             }
 
-
-
             return redirect('/corporates/display');
-
         }
         catch (ClientException $exception){
 
-            //  return $exception;
+
             session()->flash('error','Please Contact System administrator for assistance');
             return view('corporate.create_user');
         }

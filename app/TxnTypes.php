@@ -16,9 +16,7 @@ class TxnTypes extends Model implements Authenticatable
     use AuthenticableTrait;
 
     protected $guarded = [];
-    protected $keyType = 'bigint';
-    protected $casts = ['id' => 'bigint'];
-    protected $table = 'txn_type';
+    protected $table = 'transaction_type';
 
 
 

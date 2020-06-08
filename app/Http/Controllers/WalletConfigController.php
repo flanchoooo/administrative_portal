@@ -525,8 +525,8 @@ class WalletConfigController extends Controller
 
 
         }
-        catch (ClientException $e){
-
+        catch (\Exception $e){
+            return$e;
             $notification = 'Please Contact System administrator for assistance';
             return view('wallet_configurations.create')->with('notification', $notification);
 
@@ -883,12 +883,10 @@ class WalletConfigController extends Controller
     }
 
 
-    public function display_pending(Request $request)
+    public function display_pending()
     {
-
         AuthService::getAuth(Auth::user()->role_permissions_id, 'e_value_checker');
         try {
-
             $client = new Client();
             $result = $client->get(env('TXN_MNG_BASE_URL').'/api/pending_approval', [
 
@@ -896,22 +894,13 @@ class WalletConfigController extends Controller
                 'headers' => ['Content-type' => 'application/json',],
 
             ]);
-
-
-             $rec =  $result->getBody()->getContents();
-            //$rec =  json_decode($result->getBody()->getContents());
+            $rec =  $result->getBody()->getContents();
             return view('wallet_configurations.display_pending')->with('records', json_decode($rec));
-
-
         }
         catch (ClientException $exception){
-            session()->flash('error', 'Please Contact System administrator for assistance');
+            session()->flash('error', $exception->getMessage());
             return view('wallet_configurations.display_pending');
-
         }
-
-
-
 
     }
 

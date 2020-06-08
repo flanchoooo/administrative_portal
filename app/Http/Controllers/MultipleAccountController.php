@@ -28,22 +28,13 @@ class MultipleAccountController
     public  function statements(Request $request){
 
 
+        //return $request->all();
 
+       ;
 
         try {
 
-
-            $user = new Client();
-            $res = $user->post(env('BR_BASE_URL') . '/api/authenticate', [
-                'json' => [
-                    'username' => env('BR_USERNAME'),
-                    'password' => env('BR_PASSWORD'),
-                ]
-            ]);
-
-            $tok = $res->getBody()->getContents();
-            $bearer = json_decode($tok, true);
-            $sec = 'Bearer ' . $bearer['id_token'];
+            $sec = 'Bearer ';
 
             $headers = array(
                 'Accept' => 'application/json',
@@ -56,8 +47,8 @@ class MultipleAccountController
                 'headers' => $headers,
                 'json' => [
                     'account_number'=> $request->account_number,
-                    'start_date'    => $request->start_date,
-                    'end_date'      => $request->end_date,
+                    'start_date'    =>  date('d-m-Y', strtotime($request->start_date)),
+                    'end_date'      =>  date('d-m-Y', strtotime($request->end_date)),
 
                 ]
             ]);

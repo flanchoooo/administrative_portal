@@ -35,8 +35,9 @@ class FeeController extends Controller
 
 
         }
-        catch (ClientException $e){
+        catch (\Exception $e){
 
+            return  $e;
             return view('fee.display');
 
         }

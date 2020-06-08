@@ -9,7 +9,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Auth\Authenticatable as AuthenticableTrait;
 
 
-class Device    extends Model implements Authenticatable
+class LendingKYC    extends Model implements Authenticatable
 
 {
 
@@ -17,6 +17,6 @@ class Device    extends Model implements Authenticatable
 
     protected $guarded = [];
 
-    protected $table = 'merchant';
+    protected $table = 'lending_kyc';
 
 }

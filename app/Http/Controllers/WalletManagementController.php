@@ -28,7 +28,6 @@ class WalletManagementController extends Controller
     public function preauth(Request $request)
 
     {
-
         AuthService::getAuth(Auth::user()->role_permissions_id, 'update_wallet');
         try {
 
@@ -43,23 +42,15 @@ class WalletManagementController extends Controller
                 ],
             ]);
 
-
-
             $result_cos = $client->get(env('BASE_URL').'/wallet/listClassOfService', [
-
                 'auth' => [ env('WEB_USER_NAME'),env('WEB_PASSWORD')],
                 'headers' => ['Content-type' => 'application/json',],
 
             ]);
 
              $cos_rec =  $result_cos->getBody()->getContents();
-
-
              $rec =  $result->getBody()->getContents();
-            $details = json_decode($rec);
-
-
-
+             $details = json_decode($rec);
 
             if ($details->code != '00') {
 
@@ -67,10 +58,6 @@ class WalletManagementController extends Controller
                 //session()->flash('link_error', $details->description);
                 return view('wallet.update_view')->with('notification', $notification);
             }
-
-
-
-
             session()->flash('last_name',$details->account_details->last_name);
             session()->flash('mobile',$details->account_details->mobile);
             session()->flash('first_name',$details->account_details->first_name);
@@ -80,16 +67,13 @@ class WalletManagementController extends Controller
             session()->flash('national_id',$details->account_details->national_id);
             session()->flash('dob',$details->account_details->dob);
             session()->flash('auth_attempts',$details->account_details->auth_attempts);
-
+            session()->flash('state',$details->account_details->state);
+            session()->flash('wallet_cos_id',$details->account_details->wallet_cos_id);
             return view('wallet.info')->with('records', json_decode($cos_rec));
-
-
         }
         catch (ClientException $e){
-
             $notification = 'Please Contact System administrator for assistance';
             return view('wallet.update_view')->with('notification', $notification);
-
         }
 
 

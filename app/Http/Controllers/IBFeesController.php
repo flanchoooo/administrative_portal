@@ -22,8 +22,7 @@ class IBFeesController extends Controller
             return view('internet_fees.display')->with('records', json_decode($rec));
         }
         catch (ClientException $e){
-
-            session()->flash('error', 'Please Contact System administrator for assistance');
+            session()->flash('error', $e->getMessage());
             return view('internet_fees.display');
         }
     }
@@ -32,7 +31,7 @@ class IBFeesController extends Controller
         AuthService::getAuth(Auth::user()->role_permissions_id, 'transaction_manager');
         try {
             $client = new Client();
-            $result = $client->get(env('BASE_URL').'/internet/products/all', [
+            $result = $client->get(env('BASE_URL').'/internet/transactions/all', [
                 'auth' => [ env('WEB_USER_NAME'),env('WEB_PASSWORD')],
                 'headers' => ['Content-type' => 'application/json',],
             ]);
@@ -40,7 +39,7 @@ class IBFeesController extends Controller
             return view('internet_fees.create')->with('records', json_decode($rec));
         }
         catch (ClientException $e){
-            session()->flash('error', 'Please Contact System administrator for assistance');
+            session()->flash('error', $e->getMessage());
             return view('internet_fees.display');
         }
 
@@ -48,7 +47,6 @@ class IBFeesController extends Controller
 
     public function create(Request $request)
     {
-       //return $request->all();
         AuthService::getAuth(Auth::user()->role_permissions_id, 'transaction_manager');
         try {
             $client = new Client();
@@ -57,30 +55,26 @@ class IBFeesController extends Controller
                 'auth' => [ env('WEB_USER_NAME'),env('WEB_PASSWORD')],
                 'headers' => ['Content-type' => 'application/json',],
                 'json' => [
-                    'name'          => $request->txn_type,
-                    'fees_type'     => $request->fees_type,
-                    'revenue_fee'   => $request->revenue_fee,
-                    'maximum_limit' => $request->maximum,
-                    'minimum_limit' => $request->minimum,
-                    'product_id'    => $request->txn_type,
-                    'tax_type'      => $request->tax_type,
-                    'tax_fee'       => $request->tax_fee,
-                    'created_by'    => $request->created_by,
 
-
+                    'fixed_fee'              => $request->fixed_fee,
+                    'percentage_fee'         => $request->percentage_fee,
+                    'minimum_amount'         => $request->minimum_amount,
+                    'maximum_amount'         => $request->maximum_amount,
+                    'tax_fixed'              => $request->tax_fixed,
+                    'tax_percentage'         => $request->tax_percentage,
+                    'transaction_id'         => $request->transaction_id,
+                    '$request->created_by'   => Auth::user()->id,
                 ],
             ]);
-             //return $result->getBody()->getContents();
             $rec =  json_decode($result->getBody()->getContents());
             if($rec->code != '00'){
                 session()->flash('error', $rec->description);
                 return view('internet_fees.create');
             }
             session()->flash('success', $rec->description);
-            return redirect()->back();
+            return redirect('/internet_fees/display');
 
-        }
-        catch (ClientException $exception){
+        } catch (ClientException $exception){
 
             session()->flash('error', 'Please Contact System administrator for assistance');
             return view('internet_fees.create');
@@ -90,7 +84,6 @@ class IBFeesController extends Controller
 
     public function update(Request $request)
     {
-          //r//eturn $request->all();
         AuthService::getAuth(Auth::user()->role_permissions_id, 'transaction_manager');
         try {
             $client = new Client();
@@ -99,17 +92,15 @@ class IBFeesController extends Controller
                 'auth' => [ env('WEB_USER_NAME'),env('WEB_PASSWORD')],
                 'headers' => ['Content-type' => 'application/json',],
                 'json' => [
-                    'name'          => $request->name,
-                    'fees_type'     => $request->fees_type,
-                    'revenue_fee'   => $request->revenue_fee,
-                    'maximum_limit' => $request->maximum_limit,
-                    'minimum_limit' => $request->minimum_limit,
-                    'product_id'    => $request->product_id,
-                    'tax_type'      => $request->tax_type,
-                    'tax_fee'       => $request->tax_fee,
-                    'updated_by'    => $request->created_by,
-                    'id'            => $request->id,
-
+                    'fixed_fee'              => $request->fixed_fee,
+                    'percentage_fee'         => $request->percentage_fee,
+                    'minimum_amount'         => $request->minimum_amount,
+                    'maximum_amount'         => $request->maximum_amount,
+                    'tax_fixed'              => $request->tax_fixed,
+                    'tax_percentage'         => $request->tax_percentage,
+                    'id'                     => $request->id,
+                    'transaction_id'         => $request->transaction_id,
+                    '$request->created_by'   => Auth::user()->id,
                 ],
             ]);
 
@@ -125,7 +116,7 @@ class IBFeesController extends Controller
 
         }
         catch (ClientException $exception){
-
+            return$exception;
             session()->flash('error', 'Please Contact System administrator for assistance');
             return view('internet_fees.update');
         }
@@ -135,14 +126,14 @@ class IBFeesController extends Controller
     public function updateview(Request $request)
     {
         AuthService::getAuth(Auth::user()->role_permissions_id, 'transaction_manager');
-        session()->flash('name', $request->name);
+        session()->flash('fixed_fee', $request->fixed_fee);
         session()->flash('id', $request->id);
-        session()->flash('minimum_limit', $request->minimum_limit);
-        session()->flash('maximum_limit', $request->maximum_limit);
-        session()->flash('revenue_fee', $request->revenue_fee);
-        session()->flash('tax_fee', $request->tax_fee);
-        session()->flash('product_id', $request->product_id);
+        session()->flash('percentage_fee', $request->percentage_fee);
+        session()->flash('minimum_amount', $request->minimum_amount);
+        session()->flash('maximum_amount', $request->maximum_amount);
+        session()->flash('tax_fixed', $request->tax_fixed);
+        session()->flash('tax_percentage', $request->tax_percentage);
+        session()->flash('transaction_id', $request->transaction_id);
         return view('internet_fees.update');
-
     }
 }

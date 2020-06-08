@@ -15,50 +15,8 @@ class WalletCOSController extends Controller
      */
 
 
-
-
-
-    public function summaries()
-    {
-
-
-        try {
-
-            $client = new Client();
-            $result = $client->get(env('BASE_URL').'/summaries', [
-
-                'auth' => [ env('WEB_USER_NAME'),env('WEB_PASSWORD')],
-                'headers' => ['Content-type' => 'application/json',],
-
-            ]);
-
-         $rec =  $result->getBody()->getContents();
-         $results = json_decode($rec);
-
-         session()->flash('wallet_balances', $results->wallet_balances);
-         session()->flash('tax', $results->tax);
-         session()->flash('revenue', $results->revenue);
-
-          return view('wallet_configurations.summaries')->with('records',json_decode($rec));
-
-
-        }
-        catch (ClientException $e){
-
-            $notification = 'Please Contact System administrator for assistance';
-            return view('wallet_configurations.summaries')->with('notification', $notification);
-
-        }
-
-
-
-
-    }
-
     public function index()
     {
-
-
         try {
 
             $client = new Client();
@@ -70,13 +28,9 @@ class WalletCOSController extends Controller
             ]);
 
             $rec =  $result->getBody()->getContents();
-
             return view('wallet_configurations.display')->with('records',json_decode($rec));
-
-
         }
-        catch (ClientException $e){
-
+        catch (\Exception $e){
             $notification = 'Please Contact System administrator for assistance';
             return view('wallet_configurations.create')->with('notification', $notification);
 
@@ -134,7 +88,7 @@ class WalletCOSController extends Controller
             ]);
 
 
-       return redirect('/wallet_configurations/display');
+            return redirect('/wallet_configurations/display');
 
 
         }

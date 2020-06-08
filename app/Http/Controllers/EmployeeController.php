@@ -47,15 +47,16 @@ class EmployeeController extends Controller
                 ],
 
                'json' => [
-                    "application_uid"    => env('AUTH_AUID'),
-                    "belong_to"          => $request->merchant_id,
-                    "email"             => $request->email,
-                    "firstname"         => $request->first_name,
-                    "lastname"          => $request->last_name,
-                    "password"          => $request->password,
-                    "phone"             => $request->phone,
-                    "user_type"          => "ADMIN",
-                    "username"          => $request->phone,
+                    "application_uid"       => env('AUTH_AUID'),
+                    "belong_to"             => $request->merchant_id,
+                    "email"                 => $request->email,
+                    "first_name"            => $request->first_name,
+                    "last_name"             => $request->last_name,
+                    "password"              => $request->password,
+                    "phone"                 => $request->phone,
+                    "user_type"             => "AGENT",
+                    "username"              => $request->phone,
+                    "user_name_pin"         => $request->user_name_pin,
                 ],
 
             ]);
@@ -218,6 +219,83 @@ class EmployeeController extends Controller
             session()->flash('error', 'Failed to create teller account please contact system administrator');
             return redirect('/merchant/display');
         }
+    }
+
+    public function update_create(Request $request){
+
+
+        AuthService::getAuth(Auth::user()->role_permissions_id, 'create_merchant');
+
+        try {
+            $client = new Client();
+            $result = $client->post(env('BASE_URL').'/fee/edit', [
+
+                'auth' => [ env('WEB_USER_NAME'),env('WEB_PASSWORD')],
+                'headers' => ['Content-type' => 'application/json',],
+                'json' => [
+                    'updated_by'            => $request->created_by,
+                    'id'                    => $request->id,
+                    'cashback_fee_type'     => $request->cashback_fee_type,
+                    'cash_back_fee'         => $request->cash_back_fee,
+                    'zimswitch_fee_type'    => $request->zimswitch_fee_type,
+                    'interchange_fee'       => $request->interchange_fee,
+                    'interchange_fee_type'  => $request->interchange_fee_type,
+                    'acquirer_fee_type'     => $request->acquirer_fee_type,
+                    'acquirer_fee'          => $request->acquirer_fee,
+                    'zimswitch_fee'         => $request->zimswitch_fee,
+                    'tax_type'              => $request->tax_type,
+                    'fee_type'              => $request->fee_type,
+                    'tax'                   => $request->tax,
+                    'fee'                   => $request->fee,
+                    'minimum_daily'         => $request->minimum_daily,
+                    'max_daily_limit'       => $request->max_daily_limit,
+                    'maximum_daily'         => $request->maximum_daily,
+                    'transaction_type_id'   => $request->transaction_type_id,
+                    'card_type_id'          => $request->card_type_id,
+                    'transaction_count'     => $request->transaction_count,
+                    'minimum_balance'       => $request->minimum_balance,
+                    'type'                  => $request->type,
+                    'agent_fee_type'        => 'PERCENTAGE',
+                    'biller_discount'       => $request->biller_discount,
+                    'agent_fee'             => $request->agent_fee,
+
+
+
+                ],
+            ]);
+
+
+            //$rec =  $result->getBody()->getContents();
+            $rec =  json_decode($result->getBody()->getContents());
+
+            if($rec->code === "00"){
+                $client = new Client();
+                $result = $client->get(env('BASE_URL').'/fee/all', [
+
+                    'auth' => [ env('WEB_USER_NAME'),env('WEB_PASSWORD')],
+                    'headers' => ['Content-type' => 'application/json',],
+
+                ]);
+
+                $records =  $result->getBody()->getContents();
+                return view('fee.display')->with('records' , json_decode($records));
+
+            }else{
+                //session()->flash('error', $rec->description);
+                //return view('fee.create');
+            }
+
+
+        }
+        catch (ClientException $e){
+
+            // session()->flash('error', 'Please Contact System administrator for assistance');
+            return 'Error';
+
+        }
+
+
+
     }
 
 
